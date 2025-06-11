@@ -11,10 +11,11 @@ sqlite_service = SQLite_service("database/Chinook_Sqlite.sqlite")
 #Endpoints
 @app.get("/ping")
 async def ping():
-    return {"ping": "pong!"}
+    return {"ping": "pong"}
 
 @app.get("/query")
 async def query(query: str = Query(..., description="Pregunta para el bot")):
+    schema = sqlite_service.get_schema() 
     response = bot.message(query)
     return {"response": response}
 
