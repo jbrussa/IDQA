@@ -2,7 +2,7 @@
 
 Intelligent Database Query Assistant
 
-IDQA es una aplicación que permita a un usuario subir una base de datos SQLite, realizar preguntas en lenguaje natural sobre los datos, y recibir respuestas generadas mediante IA.
+IDQA es una aplicación que permite a un usuario subir una base de datos SQLite, realizar preguntas en lenguaje natural sobre los datos, y recibir respuestas generadas mediante IA.
 
 ## Tecnologías
 
@@ -16,7 +16,8 @@ IDQA es una aplicación que permita a un usuario subir una base de datos SQLite,
 - Instalar python 3.10 o superior
 - Crear entorno virtual con el siguiente comando:
 
-`cd [carpeta del proyecto] python -m venv venv`
+`cd [carpeta del proyecto] 
+python -m venv venv`
 
 ## Activar entorno
 
@@ -36,4 +37,7 @@ IDQA es una aplicación que permita a un usuario subir una base de datos SQLite,
 - Ejecutar el siguiente comando
   `fastapi dev main.py`
 
-fastapi dev main.py
+
+
+## Aclaración
+Es necesario un archivo .env con la APIKEY para el uso de OpenAI

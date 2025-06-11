@@ -12,7 +12,7 @@ class BOT:
 
     def message(self, query: str) -> str:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4.1",
             messages=[
                 {"role": "user", "content": query}
             ]
