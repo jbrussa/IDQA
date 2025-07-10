@@ -1,0 +1,12 @@
+/* Reseteo global */
+* {
+  box-sizing: border-box; /* Incluye padding y border en el ancho */
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
