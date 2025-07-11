@@ -33,10 +33,13 @@ class BOT:
     }
 ]
 
-    def message(self, query: str) -> str:
+    def message(self, query: str, session_id: str) -> str:
        # Obtener esquema de la base
        schema = sqlite_service.get_schema()
        schema_str = json.dumps(schema, indent=2) 
+
+       # traer el historial del chat desde la bd
+       history = "\n\n".join(sqlite_service.search_history(session_id))
        
        # Armar mensaje inicial con instrucciones + esquema + pregunta
        instruction = (
@@ -45,6 +48,7 @@ class BOT:
         "en base a la pregunta del usuario. Solo usá las tablas y columnas existentes. Tambien podes traducir los nombres de las tablas y columnas para entender lo que te pide el usuario\n\n"
         f"Esquema de la base:\n{schema_str}\n\n"
         f"Pregunta del usuario: {query}"
+        f"Chat history: {history}"
        )
 
        messages = [{"role": "user", "content": instruction}]
@@ -83,10 +87,6 @@ class BOT:
                         "tool_call_id": tool_call.id,
                         "content": result
                     },
-                    {
-                        "role": "user",
-                        "content": "Este es el resultado de la consulta. Mostralo de forma clara en una tabla o explicalo brevemente."
-                    }
                 ]
 
                 final_response = client.chat.completions.create(

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from fastapi import FastAPI, Query
 from fastapi import FastAPI, Request, HTTPException
 from openai import OpenAI
@@ -16,12 +17,10 @@ sqlite_service = SQLite_service("database/Chinook_Sqlite.sqlite")
 class SQLRequest(BaseModel):
     sql: str
 
-class MessageRequest(BaseModel):
-    query: str  
 
-
-#  Crear abla Sesiones si no existe
+#  Crear tabla Sesiones y Historial si no existe
 sqlite_service.create_table_sessions()
+sqlite_service.create_table_historial()
 
 
 #Endpoints
@@ -43,7 +42,14 @@ async def query(request: Request, query: str = Query(..., description="Pregunta 
     # Comprobar que la sesión sea de menos de 15 minutos
     sqlite_service.check_expiry(sesion)
 
-    response = bot.message(query)
+    dateTimeQuery = datetime.now()
+
+    response = bot.message(query, session_id)
+    dateTimeResponse = datetime.now()
+
+     # Insertar en historial
+    sqlite_service.insert_historial(session_id, query, response, dateTimeQuery, dateTimeResponse)
+
     return {"response": response}
 
 @app.post("/session")

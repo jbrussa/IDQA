@@ -127,4 +127,65 @@ class SQLite_service:
             raise HTTPException(status_code=400, detail="La sesión ha caducado")
         
         return
+    
 
+    ## HISTORIAL
+    def create_table_historial(self) -> None:
+        # Ruta completa a la base de datos dentro de 'db'
+        db_path = os.path.join("database", "base.db")
+
+       # Usamos with para manejar la conexión automáticamente, se cierra sola
+        with sqlite3.connect(db_path) as conn:
+
+            cursor = conn.cursor()
+            # Crear la tabla para almacenar historial
+            cursor.execute("""
+            CREATE TABLE IF NOT EXISTS historial (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                idsession TEXT NOT NULL,
+                rol TEXT NOT NULL,
+                mensaje TEXT NOT NULL,
+                fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP)
+            """)
+             # Guardar cambios
+            conn.commit()
+
+        return
+    
+    def insert_historial(self, session_id: str, query: str, response:str, dateTimeQuery: datetime, dateTimeResponse: datetime) -> None:
+            
+            # Fecha y hora en formato para la bd
+            dateTimeQueryFormatted = dateTimeQuery.isoformat()   
+            dateTimeResponseFormatted = dateTimeResponse.isoformat()   
+
+            db_path = os.path.join("database", "base.db")
+
+            with sqlite3.connect(db_path) as conn:
+
+                cursor = conn.cursor()
+
+                # Insertamos datos en tabla historial
+                cursor.execute("INSERT INTO historial (idsession, rol, mensaje, fecha_hora) VALUES (?, ?, ?, ?)", (session_id, "user", query, dateTimeQueryFormatted)) 
+                cursor.execute("INSERT INTO historial (idsession, rol, mensaje, fecha_hora) VALUES (?, ?, ?, ?)", (session_id, "assistant", response, dateTimeResponseFormatted))   
+                conn.commit()
+
+    def search_history(self, session_id: str) -> list[str]:
+         
+        db_path = os.path.join("database", "base.db")
+
+        with sqlite3.connect(db_path) as conn:
+
+            cursor = conn.cursor()
+
+            # buscar en bd los datos y los traigo como una lista de string
+            history = cursor.execute("""
+        SELECT rol, mensaje 
+        FROM historial 
+        WHERE idsession = ? 
+        ORDER BY fecha_hora ASC ;
+        """, (session_id,)).fetchall()
+            
+            # formatear en par rol mensaje
+            history_format = [f"{rol}: {mensaje}" for rol, mensaje in history]
+
+        return history_format
