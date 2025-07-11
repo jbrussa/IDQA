@@ -1,6 +1,10 @@
 import json
 import sqlite3
 from typing import List, Dict
+import os
+from datetime import datetime,timedelta
+from fastapi import HTTPException
+
 
 class SQLite_service:
     def __init__(self, db_path: str):
@@ -58,5 +62,69 @@ class SQLite_service:
 
         except sqlite3.Error as e:
             return json.dumps({"status": "error", "message": str(e)})
+        
+    ## SESIONES
 
+    # Crear tabla de sesiones si no existe
+    def create_table_sessions(self) -> None:
+        # Ruta completa a la base de datos dentro de 'db'
+        db_path = os.path.join("database", "base.db")
+
+       # Usamos with para manejar la conexión automáticamente, se cierra sola
+        with sqlite3.connect(db_path) as conn:
+
+            cursor = conn.cursor()
+            # Crear la tabla para almacenar sesiones
+            cursor.execute("""
+            CREATE TABLE IF NOT EXISTS sesiones (
+                id TEXT NOT NULL,
+                ip TEXT NOT NULL,
+                fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """)
+             # Guardar cambios
+            conn.commit()
+
+        return
+
+    def insert_session(self, session_id: str, ip_cliente: str) -> None:
+        
+        # Fecha y hora actual en formato para la bd
+        dateTime = datetime.now().isoformat()   
+
+        db_path = os.path.join("database", "base.db")
+
+        with sqlite3.connect(db_path) as conn:
+
+            cursor = conn.cursor()
+            # Insertamos datos en tabla sesiones
+            cursor.execute("INSERT INTO sesiones (id, ip, fecha) VALUES (?, ?, ?)", (session_id, ip_cliente, dateTime))   
+            conn.commit()
+
+        return
+
+
+    def fetch_data_session(self, session_id: str) -> list[str]:
+
+        db_path = os.path.join("database", "base.db") 
+
+        with sqlite3.connect(db_path) as conn:
+            cursor = conn.cursor()
+
+            # Busco en bd los datos de la session_id, y me trae solo uno. Si no existe error 400
+            sesion = cursor.execute("SELECT * from sesiones where id = ?", (session_id,)).fetchone()
+            if not sesion:
+                raise HTTPException(status_code=400, detail="No existe la sesión")
+        
+        return sesion
+    
+    def check_expiry(self, sesion: list[str]) -> None:
+        
+         # Compruebo que no hayan pasado 15 minutos desde que se inició la sesión
+        dateTime = sesion[2]
+        dateTimeFormateado = datetime.fromisoformat(dateTime)
+        if  datetime.now() - dateTimeFormateado > timedelta(minutes = 15):
+            raise HTTPException(status_code=400, detail="La sesión ha caducado")
+        
+        return
 
