@@ -1,0 +1,23 @@
+
+.chat{
+    width: 80%;
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+
+
+    /* Glassmorphism core */
+  backdrop-filter: blur(10px) saturate(160%);      /* afecta lo que esta detras del elemento */
+  -webkit-backdrop-filter: blur(12px) saturate(160%); /* Safari */
+  background: rgba(255, 255, 255, 0.12);            /* “cristal” */
+  border: 1px solid rgba(255, 255, 255, 0.3);       /* bisel tenue */
+
+  /* Estética y legibilidad */
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+}
