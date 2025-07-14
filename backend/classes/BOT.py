@@ -49,6 +49,7 @@ class BOT:
         f"Esquema de la base:\n{schema_str}\n\n"
         f"Pregunta del usuario: {query}"
         f"Chat history: {history}"
+        "No devuelvas la sentencia SQL, solo la respuesta a la pregunta del usuario. Cuando necesites devolver datos con formato, usa Markdown"
        )
 
        messages = [{"role": "user", "content": instruction}]

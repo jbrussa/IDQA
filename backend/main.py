@@ -1,12 +1,13 @@
 import json
 from datetime import datetime
 from fastapi import FastAPI, Query
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, Body, HTTPException
 from openai import OpenAI
 from classes.BOT import BOT
 import uuid             #Nos permite crear un identificador único a nivel global
 from classes.SQLite_service import SQLite_service
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 client = OpenAI()
@@ -16,20 +17,35 @@ sqlite_service = SQLite_service("database/Chinook_Sqlite.sqlite")
 # Define the request model para el post
 class SQLRequest(BaseModel):
     sql: str
+class QueryModel(BaseModel):
+    query: str
 
 
 #  Crear tabla Sesiones y Historial si no existe
 sqlite_service.create_table_sessions()
 sqlite_service.create_table_historial()
 
+# Configura los orígenes permitidos
+origins = [
+    "http://localhost:3000",
+]
+
+# Agrega el middleware CORS a la app FastAPI
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Permite solicitudes de estos orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 #Endpoints
 @app.get("/ping")
 async def ping():
     return {"ping": "pong"}
 
-@app.get("/query")
-async def query(request: Request, query: str = Query(..., description="Pregunta para el bot")):
+@app.post("/query")
+async def query(request: Request, query: QueryModel = Body(...)):
 
     # Recuperar id de sesión
     session_id = request.headers.get("id")
@@ -48,7 +64,7 @@ async def query(request: Request, query: str = Query(..., description="Pregunta 
     dateTimeResponse = datetime.now()
 
      # Insertar en historial
-    sqlite_service.insert_historial(session_id, query, response, dateTimeQuery, dateTimeResponse)
+    sqlite_service.insert_historial(session_id, query.query, response, dateTimeQuery, dateTimeResponse)
 
     return {"response": response}
 

@@ -1,0 +1,31 @@
+.message-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-width: 10%;
+  max-width: 95%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  margin: 0px 0px 20px 0px;
+}
+
+.response {
+  font-family: "Sora", sans-serif;
+  color: #f0f0f0;
+  align-self: flex-start;
+  border-radius: 0px 10px 10px 10px;
+  backdrop-filter: blur(10px) saturate(160%);      /* afecta lo que esta detras del elemento */
+  -webkit-backdrop-filter: blur(12px) saturate(160%); /* Safari */
+  background: rgba(62, 19, 15, 0.9);  
+
+}
+
+.query {
+  font-family: "Sora", sans-serif;
+  background-color: #c7b1b1;
+  color: #0c0d0c;
+  align-self: flex-end;
+  border-radius: 10px 10px 0px 10px;
+
+}
