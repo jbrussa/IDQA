@@ -1,3 +1,19 @@
+.message-box table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+  font-size: 0.85rem;
+  white-space: nowrap; /* evita que se corte */
+}
+
+.message-box th,
+.message-box td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
 .message-box {
   display: flex;
   flex-direction: column;
@@ -8,6 +24,7 @@
   max-width: 95%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   margin: 0px 0px 20px 0px;
+  overflow-x: auto;
 }
 
 .response {

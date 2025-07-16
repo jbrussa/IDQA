@@ -3,6 +3,7 @@
     width: 80%;
     height: 88%;
     display: flex;
+    max-width: 80%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;

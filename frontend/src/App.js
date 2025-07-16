@@ -4,8 +4,10 @@ import Container from "./Components/Container/Container";
 import Title from "./Components/Title/Title";
 import Chat from "./Components/Chat/Chat";
 import React, { useState, useEffect, useRef } from "react";
-import { TextArea } from "@radix-ui/themes";
+import { Spinner, TextArea } from "@radix-ui/themes";
 import MessageBox from "./Components/MessageBox/MessageBox";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // para listas, tablas, checkboxes
 
 function App() {
 
@@ -101,10 +103,15 @@ function App() {
               <Container className="messages-container">
                 {messages.map((message, index) => (
                 <MessageBox key={index} className={message.type}>
-                  {message.text}
+                  <ReactMarkdown  remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
                 </MessageBox>
               ))}
                 <div ref={messagesEndRef} />
+                {thinking && (
+                <MessageBox className="response">
+                  <Spinner />
+                </MessageBox>
+              )}
 
               </Container>
 
