@@ -1,12 +1,13 @@
-import React from 'react'
-import './Container.css'
+import React, { forwardRef } from "react";
+import "./Container.css";
 
-const Container = ( {children, className = ' '} ) => {
+// Usar forwardRef para pasar la referencia al div interno, que se usa para el scroll al último mensaje
+const Container = forwardRef(({ children, className = " " }, ref) => {
   return (
-    <div className={`${className}`}>
+    <div className={`${className}`} ref={ref}>
       {children}
     </div>
-  )
-}
+  );
+});
 
-export default Container
+export default Container;

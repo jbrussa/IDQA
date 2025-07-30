@@ -1,54 +1,126 @@
-
-.container{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chat-container {
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  max-width: 1000px;
+  /* min-width: 700px; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  overflow: hidden;
 }
 
-
 .section-a-container {
-    width: 80%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .input-container {
-    width: 100%;
-    height:10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: sticky;
+  bottom: 0; /* Sticks to the bottom of the container */
 }
 
-.messages-container{
+.messages-container {
+  width: 100%;
+  height: 100%;
+  flex: 1; /* ocupa todo el espacio vertical restante */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem; /* Padding for better spacing */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* MEDIA QUERIES - Se aplican en pantallas pequeñas */
+
+/* Tablets y pantallas medianas (768px y menos) */
+@media (max-width: 768px) {
+  .section-a-container {
+    width: 95%; /* Usar más ancho disponible */
+    height: 100%;
+    flex-direction: column; /* Mantener columna pero ajustar distribución */
+    justify-content: flex-start; /* Empezar desde arriba */
+    padding: 1rem 0; /* Agregar espacio */
+  }
+  
+  .chat-container {
     width: 100%;
-    flex: 1;            /* ocupa todo el espacio vertical restante */
-    display: flex;
+    min-width: unset; /* Quitar ancho mínimo */
+    max-width: 100%;
+    height: calc(100vh - 120px); /* Dejar espacio para el título */
+    margin-top: 1rem; /* Separación del título */
+  }
+}
+
+/* Móviles (480px y menos) */
+@media (max-width: 800px) {
+  .container {
+    padding: 0.5rem; /* Espacio en los bordes */
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    overflow-y: auto; /* Allows scrolling */
-    padding: 1rem; /* Padding for better spacing */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .section-a-container {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 0;
+  }
+  
+  .chat-container {
+    width: 100%;
+    height: calc(100vh - 100px); /* Menos espacio para el título */
+    border-radius: 4px; /* Bordes menos redondeados */
+    margin-top: 0.5rem;
+  }
+  
+  .messages-container {
+    padding: 0.5rem; /* Menos padding interno */
+  }
+  
+  .input-container {
+    height: 12%; /* Ligeramente más alto en móvil */
+  }
+}
+
+/* Móviles muy pequeños (320px y menos) */
+@media (max-width: 320px) {
+  .message-box {
+    max-width: 98%; /* Usar casi todo el ancho */
+    font-size: 0.8rem; /* Texto más pequeño */
+    padding: 8px; /* Menos padding */
+  }
+  
+  .message-box table {
+    font-size: 0.7rem; /* Tablas más pequeñas */
+  }
+  
+  .message-box th,
+  .message-box td {
+    padding: 4px 6px; /* Celdas más compactas */
+  }
 }
