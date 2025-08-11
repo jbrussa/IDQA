@@ -1,11 +1,14 @@
 import "./App.css";
 import Section1 from "./Components/Section/Section1";
+import Section2 from "./Components/Section/Section2";
 import Container from "./Components/Container/Container";
+import FileUploader from "./Components/FileUploader/FileUploader";
+import Schema from "./Components/Schema/Schema.jsx";
 import Title from "./Components/Title/Title";
 import Chat from "./Components/Chat/Chat";
 import Footer from "./Components/Footer/Footer.jsx";
 import React, { useState, useEffect, useRef } from "react";
-import { Spinner, TextArea } from "@radix-ui/themes";
+import { Spinner, TextArea, Button, Tabs } from "@radix-ui/themes";
 import MessageBox from "./Components/MessageBox/MessageBox";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"; // para listas, tablas, checkboxes
@@ -16,6 +19,7 @@ function App() {
   const [messages, setMessages] = useState([]); // Estado para almacenar los mensajes
   const [thinking, setThinking] = useState(false); // Estado para indicar si el chatbot está "pensando"
   const messagesContainerRef = useRef(null); // Referencia al contenedor de mensajes
+  const section2Ref = useRef(null); // Referencia al section2
 
   // UseEffect para agregar la clase show para el titulo
   useEffect(() => {
@@ -40,14 +44,22 @@ function App() {
   // UseEffect para hacer scroll al último mensaje SOLO dentro del contenedor
   useEffect(() => {
     if (messagesContainerRef.current) {
-      console.log("Element found, scrolling...");
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
     } else {
       console.log("Element NOT found");
     }
-    console.log("=== END DEBUG ===");
   }, [messages, thinking]);
+
+  // function para hacer scroll a section 2
+  const scrollSection2 = () => {
+    if (section2Ref.current) {
+      section2Ref.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start", // Opcional: controla dónde se posiciona
+      });
+    }
+  };
 
   // función para enviar mensajes al chatbot
   const sendMessage = (query) => {
@@ -90,11 +102,63 @@ function App() {
   return (
     <div className="App">
       <Section1>
+        <Container className="section1">
+          <Container className="text-section1">
+            <Container className="title-container">
+              <Title clase={`element ${show ? "show" : ""}`}>
+                Empowering Humanity Through AI
+              </Title>
+            </Container>
+
+            <Container className="subtitle-container">
+              <p className="subtitle">
+                IDQA is an AI-powered platform designed to enhance human
+                capabilities by providing intelligent solutions for various
+                tasks. Our mission is to empower individuals and organizations
+                with advanced AI tools that simplify complex processes, improve
+                decision-making, and foster innovation.
+              </p>
+            </Container>
+            <Container className="button-container">
+              <Button
+                variant="solid"
+                color="tomato"
+                size="4"
+                highContrast
+                style={{ border: " 1px solid #e0e0e0" }}
+                onClick={() => {
+                  scrollSection2();
+                }}
+              >
+                Get started!
+              </Button>
+            </Container>
+          </Container>
+        </Container>
+      </Section1>
+
+      <Section2 ref={section2Ref}>
         <Container className="container">
           <Container className="section-a-container">
-            <Title clase={`element ${show ? "show" : ""}`}>
-              Empowering Humanity Through AI
-            </Title>
+            <Container className="section-a-box">
+              <Tabs.Root className="tabs-list" defaultValue="upload">
+                <div className="tabs-header">
+                  <Tabs.List size="1" color="tomato"  >
+                  <Tabs.Trigger value="upload">Upload</Tabs.Trigger>
+                  <Tabs.Trigger value="schema">Schema</Tabs.Trigger>
+                </Tabs.List>
+                </div>
+                
+
+                <Tabs.Content value="upload">
+                  <FileUploader sessionId={sessionId} />
+                </Tabs.Content>
+
+                <Tabs.Content value="schema">
+                  <Schema></Schema>
+                </Tabs.Content>
+              </Tabs.Root>
+            </Container>
           </Container>
 
           <Container className="chat-container">
@@ -139,10 +203,10 @@ function App() {
             </Chat>
           </Container>
         </Container>
-      </Section1>
+      </Section2>
 
       <Footer>
-        <p className="footer-text">© 2025 IDQA. All rights reserved.</p>
+        <p className="footer-text">© 2025 IDQA. All rights reserved. JB uwu</p>
       </Footer>
     </div>
   );

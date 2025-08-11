@@ -33,7 +33,11 @@ class BOT:
     }
 ]
 
-    def message(self, query: str, session_id: str) -> str:
+    def message(self, query: str, session_id: str, sqlite_service=None) -> str:
+       # Si no se proporciona sqlite_service, usar uno por defecto
+       if sqlite_service is None:
+            sqlite_service = SQLite_service("database/Chinook_Sqlite.sqlite")
+
        # Obtener esquema de la base
        schema = sqlite_service.get_schema()
        schema_str = json.dumps(schema, indent=2) 

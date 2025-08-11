@@ -12,6 +12,39 @@ class SQLite_service:
 
     def get_connection(self):
         return sqlite3.connect(self.db_path)
+    
+    def get_database_path_for_session(session_id: str, default_db: str = "database/Chinook_Sqlite.sqlite") -> str:
+        """
+        Determina qué base de datos usar para una sesión:
+        - Si existe una base de datos personalizada para la sesión, la usa
+        - Si no, usa la base de datos por defecto
+        """
+       
+        if not session_id:
+            return default_db
+        
+        upload_folder = "upload-database"
+        
+        # Buscar archivos con diferentes extensiones
+        possible_extensions = ['.db', '.sqlite', '.sqlite3']
+        
+        for ext in possible_extensions:
+            custom_db_path = os.path.join(upload_folder, f"{session_id}{ext}")
+            if os.path.exists(custom_db_path):
+                print(f" Usando base de datos personalizada: {custom_db_path}")
+                return custom_db_path
+        
+        print(f" Usando base de datos por defecto: {default_db}")
+        return default_db
+    
+    @classmethod
+    def create_for_session(cls, session_id: str, default_db: str = "database/Chinook_Sqlite.sqlite"):
+        """
+        Factory method para crear una instancia de SQLite_service 
+        con la base de datos apropiada para la sesión
+        """
+        db_path = cls.get_database_path_for_session(session_id, default_db)
+        return cls(db_path)
 
     def get_schema(self) -> Dict[str, List[Dict[str, str]]]: 
         """

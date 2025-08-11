@@ -29,3 +29,14 @@ body {
   text-align: center;
   padding-top: 30px;
 }
+
+.subtitle {
+  color: #f0f0f0;
+  font-size: 1.2rem;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.get-started-button {
+  margin-top: 100px;
+}
