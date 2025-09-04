@@ -40,3 +40,22 @@ body {
 .get-started-button {
   margin-top: 100px;
 }
+
+.section-a-box {
+  height: 100%;
+}
+
+.tabs-list {
+  display: flex; 
+  flex-direction: column; 
+  height: 100%; 
+}
+
+.tabs-content-container-upload {
+  flex: 1; /* Esto hace que el contenedor crezca para ocupar todo el espacio disponible */
+}
+
+.tabs-content-container-schema {
+  flex: 1; /* Esto hace que el contenedor crezca para ocupar todo el espacio disponible */
+  overflow: auto; /* Agrega un scroll si el contenido es más grande que el contenedor */
+}

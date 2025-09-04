@@ -1,10 +1,14 @@
 import { useState, useRef } from "react";
 import "./FileUploader.css";
+import { Button } from "@radix-ui/themes";
+import Container from "../Container/Container.jsx";
 
 const FileUploader = ({ sessionId }) => {
   // Definimos el archivo como un estado
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("waiting"); // Estado para manejar el estado del archivo
+  const [isHovered1, setIsHovered1] = useState(false); // Estado para manejar el hover del boton
+  const [isHovered2, setIsHovered2] = useState(false); // Estado para manejar el hover del boton
 
   const fileInputRef = useRef(null); // Referencia para conectar el boton del input y el boton personalizado
 
@@ -69,48 +73,95 @@ const FileUploader = ({ sessionId }) => {
 
   return (
     <div className="file-uploader">
-      <input
-        type="file"
-        onChange={handleFileChange}
-        ref={fileInputRef}
-        // accept=".db,.sqlite,.sqlite3"
-        style={{ display: "none" }} // ← OCULTO
-      />
+      <Container className="select-section">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+          // accept=".db,.sqlite,.sqlite3"
+          style={{ display: "none" }} // ← OCULTO
+        />
 
-      {/* Botón personalizado */}
-      <button onClick={handleButtonClick} className="upload-button">
-        📁 Seleccionar Base de Datos
-      </button>
+        <Container className="text-container">
+          <p className="text-upload"> Choose your database</p>
+        </Container>
 
-      {file && (
-        <div className="file-info">
-          <p>
-            Archivo seleccionado: <strong>{file.name}</strong>{" "}
+        {/* Botón Upload */}
+        <Button
+          variant="surface"
+          color="tomato"
+          size="4"
+          highContrast
+          style={
+            isHovered1
+              ? { backgroundColor: "#f0d5d0", marginTop: "10px" }
+              : { marginTop: "10px" }
+          }
+          onMouseEnter={() => setIsHovered1(true)}
+          onMouseLeave={() => setIsHovered1(false)}
+          onClick={() => {
+            handleButtonClick();
+          }}
+        >
+          Select from your device
+        </Button>
+
+        {/* Informacion de file */}
+        {file && (
+          <div className="file-info">
+            <p className="text-file-info">
+              File name: <strong>{file.name}</strong>{" "}
+            </p>
+            <p className="text-file-info">
+              Size: <strong>{(file.size / 1024).toFixed(2)} KB</strong>{" "}
+            </p>
+            <p className="text-file-info">
+              Type: <strong>{file.type}</strong>{" "}
+            </p>
+          </div>
+        )}
+      </Container>
+
+      <Container className="upload-section">
+        {status === "error" && (
+          <p className="error-message">
+            Error al subir el archivo. Inténtalo de nuevo.
           </p>
-          <p>
-            Size: <strong>{(file.size / 1024).toFixed(2)} KB</strong>{" "}
-          </p>
-          <p>
-            Type: <strong>{file.type}</strong>{" "}
-          </p>
-        </div>
-      )}
+        )}
 
-      {file && status !== "uploading" && (
-        <button onClick={handleFileUpload}> Upload </button>
-      )}
+        {status === "success" && (
+          <div className="success-info">
+            <p className="text-file-info">
+              Subido correctamente. Ahora puedes hacer consultas.
+            </p>
+          </div>
+        )}
 
-      {status === "error" && (
-        <p className="error-message">
-          Error al subir el archivo. Inténtalo de nuevo.
-        </p>
-      )}
-
-      {status === "success" && (
-        <p className="success-message">
-          Subido correctamente. Ahora puedes hacer consultas.
-        </p>
-      )}
+        {file && status !== "uploading" && (
+          <Button
+            variant="surface"
+            color="tomato"
+            size="4"
+            highContrast
+            style={
+              isHovered2
+                ? {
+                    backgroundColor: "#f0d5d0",
+                    marginTop: "10px",
+                    justifyContent: "end",
+                  }
+                : { marginTop: "10px", justifyContent: "end" }
+            }
+            onMouseEnter={() => setIsHovered2(true)}
+            onMouseLeave={() => setIsHovered2(false)}
+            onClick={() => {
+              handleFileUpload();
+            }}
+          >
+            Upload
+          </Button>
+        )}
+      </Container>
     </div>
   );
 };

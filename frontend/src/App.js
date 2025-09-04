@@ -143,18 +143,23 @@ function App() {
             <Container className="section-a-box">
               <Tabs.Root className="tabs-list" defaultValue="upload">
                 <div className="tabs-header">
-                  <Tabs.List size="1" color="tomato"  >
-                  <Tabs.Trigger value="upload">Upload</Tabs.Trigger>
-                  <Tabs.Trigger value="schema">Schema</Tabs.Trigger>
-                </Tabs.List>
+                  <Tabs.List size="1" color="tomato">
+                    <Tabs.Trigger value="upload">Upload</Tabs.Trigger>
+                    <Tabs.Trigger value="schema">Schema</Tabs.Trigger>
+                  </Tabs.List>
                 </div>
-                
 
-                <Tabs.Content value="upload">
+                <Tabs.Content
+                  className="tabs-content-container-upload"
+                  value="upload"
+                >
                   <FileUploader sessionId={sessionId} />
                 </Tabs.Content>
 
-                <Tabs.Content value="schema">
+                <Tabs.Content
+                  className="tabs-content-container-schema"
+                  value="schema"
+                >
                   <Schema></Schema>
                 </Tabs.Content>
               </Tabs.Root>
