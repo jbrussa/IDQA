@@ -4,7 +4,7 @@ Intelligent Database Query Assistant
 
 IDQA es una aplicación que permite a un usuario subir una base de datos SQLite, realizar preguntas en lenguaje natural sobre los datos, y recibir respuestas generadas mediante IA.
 
-![Ejemplo de uso](.\frontend\src\assets\gif-presentation.gif)
+![Ejemplo de uso](https://github.com/jbrussa/IDQA/tree/main/frontend/src/assets/gif-presentation.gif)
 
 ## Tecnologías
 
