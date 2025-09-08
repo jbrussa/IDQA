@@ -14,6 +14,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"; // para listas, tablas, checkboxes
 
 function App() {
+  //* Estados y referencias *//
   const [show, setShow] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [messages, setMessages] = useState([]); // Estado para almacenar los mensajes
@@ -21,6 +22,14 @@ function App() {
   const messagesContainerRef = useRef(null); // Referencia al contenedor de mensajes
   const section2Ref = useRef(null); // Referencia al section2
 
+  // Estados de archivo subido
+  const [file, setFile] = useState(null);
+  const [status, setStatus] = useState("waiting");
+
+  // Estados para el esquema
+  const [schemaData, setSchemaData] = useState(null);
+
+  //* UseEffect *//
   // UseEffect para agregar la clase show para el titulo
   useEffect(() => {
     setTimeout(() => setShow(true), 100); // Agrega la clase después de 100ms
@@ -51,6 +60,30 @@ function App() {
     }
   }, [messages, thinking]);
 
+  // UseEffect para obtener el esquema de la base de datos cuando cambia el status a "uploaded"
+  useEffect(() => {
+    if (sessionId) {
+      fetch("http://127.0.0.1:8000/schema", {
+        headers: { id: sessionId },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setSchemaData(data);
+        })
+        .catch((error) => {
+          console.error("Error al obtener el esquema:", error);
+        });
+    }
+  }, [sessionId, status]);
+
+  // useEffect para vaciar el chat al subir un archivo
+  useEffect(() => {
+    if (status === "success") {
+      setMessages([]);
+    }
+  }, [status]);
+
+  //* FUNCIONES *//
   // function para hacer scroll a section 2
   const scrollSection2 = () => {
     if (section2Ref.current) {
@@ -112,11 +145,13 @@ function App() {
 
             <Container className="subtitle-container">
               <p className="subtitle">
-                IDQA is an AI-powered platform designed to enhance human
-                capabilities by providing intelligent solutions for various
-                tasks. Our mission is to empower individuals and organizations
-                with advanced AI tools that simplify complex processes, improve
-                decision-making, and foster innovation.
+                IDQA is an AI-powered platform designed to enable natural
+                language interaction with your databases. It simplifies complex
+                data exploration by allowing you to upload a database and ask
+                questions in your language. Our mission is to bridge the gap
+                between users and their data, empowering you to retrieve
+                insights and make informed decisions instantly, without the need
+                for technical queries or extensive database knowledge.
               </p>
             </Container>
             <Container className="button-container">
@@ -153,14 +188,20 @@ function App() {
                   className="tabs-content-container-upload"
                   value="upload"
                 >
-                  <FileUploader sessionId={sessionId} />
+                  <FileUploader
+                    sessionId={sessionId}
+                    file={file}
+                    setFile={setFile}
+                    status={status}
+                    setStatus={setStatus}
+                  />
                 </Tabs.Content>
 
                 <Tabs.Content
                   className="tabs-content-container-schema"
                   value="schema"
                 >
-                  <Schema></Schema>
+                  <Schema schema={schemaData}></Schema>
                 </Tabs.Content>
               </Tabs.Root>
             </Container>
@@ -211,7 +252,7 @@ function App() {
       </Section2>
 
       <Footer>
-        <p className="footer-text">© 2025 IDQA. All rights reserved. JB uwu</p>
+        <p className="footer-text">© 2025 IDQA. All rights reserved.</p>
       </Footer>
     </div>
   );

@@ -63,10 +63,6 @@
   text-align: center;
 }
 
-.div {
-    background-color: #f9f9f9;
-}
-
 .table-name-text {
   font-weight: bold;
   font-size: large;
@@ -78,12 +74,14 @@
   display: flex;
   align-items: center;
   margin: 10px;
-  background-color: #f9f9f9;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .fields-container {
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 10px;
   background-color: #f0f0f0;
@@ -91,10 +89,18 @@
 
 .field-container {
   display: flex;
+  width: 90%;
   justify-content: space-between;
   align-items: center;
   padding: 8px;
   border-radius: 8px;
   background-color: #f9f9f9; /* Light background for contrast */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.total-text {
+  font-size: 1rem;
+  color: #555;
+  text-align: right;
+  margin-top: 10px;
 }

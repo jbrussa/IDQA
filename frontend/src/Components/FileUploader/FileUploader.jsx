@@ -3,10 +3,9 @@ import "./FileUploader.css";
 import { Button } from "@radix-ui/themes";
 import Container from "../Container/Container.jsx";
 
-const FileUploader = ({ sessionId }) => {
+const FileUploader = ({ sessionId, file, setFile, status, setStatus }) => {
   // Definimos el archivo como un estado
-  const [file, setFile] = useState(null);
-  const [status, setStatus] = useState("waiting"); // Estado para manejar el estado del archivo
+
   const [isHovered1, setIsHovered1] = useState(false); // Estado para manejar el hover del boton
   const [isHovered2, setIsHovered2] = useState(false); // Estado para manejar el hover del boton
 
@@ -23,23 +22,37 @@ const FileUploader = ({ sessionId }) => {
     }
   }
 
+  // Lógica para mostrar el tipo de archivo
+  const getFileType = () => {
+    if (file && file.type) {
+      // Si el navegador proporciona un tipo MIME, lo usamos
+      return file.type;
+    } else if (file && file.name) {
+      // Si no hay tipo MIME, usamos la extensión del archivo
+      const parts = file.name.split(".");
+      return parts.length > 1 ? `.${parts.pop()}` : "Desconocido";
+    }
+    return "Desconocido";
+  };
+
   // funcion para manejar el envío del archivo
   async function handleFileUpload() {
-    //! DEBUG: Verificar sessionId
-    console.log("=== DEBUG UPLOAD ===");
-    console.log("sessionId recibido:", sessionId);
-    console.log("Tipo de sessionId:", typeof sessionId);
-    console.log(
-      "sessionId es válido:",
-      sessionId && typeof sessionId === "string"
-    );
-
     if (!file) {
       console.error("No hay archivo seleccionado.");
       return;
     }
 
     // Aca irian validaciones de tamaño o tipo de archivo
+    // Validación del tipo de archivo
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    const allowedExtensions = ["db", "sqlite", "sqlite3"];
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      console.error("Tipo de archivo no permitido.");
+      setStatus("error");
+
+      return;
+    }
 
     setStatus("uploading");
     const formData = new FormData();
@@ -52,8 +65,6 @@ const FileUploader = ({ sessionId }) => {
     }
 
     try {
-      //! DEBUG
-      console.log("Enviando request con sessionId:", sessionId);
       await fetch("http://127.0.0.1:8000/upload-db", {
         method: "POST",
         body: formData,
@@ -86,7 +97,7 @@ const FileUploader = ({ sessionId }) => {
           <p className="text-upload"> Choose your database</p>
         </Container>
 
-        {/* Botón Upload */}
+        {/* Botón Select */}
         <Button
           variant="surface"
           color="tomato"
@@ -95,7 +106,7 @@ const FileUploader = ({ sessionId }) => {
           style={
             isHovered1
               ? { backgroundColor: "#f0d5d0", marginTop: "10px" }
-              : { marginTop: "10px" }
+              : { marginTop: "10px", border: "0px" }
           }
           onMouseEnter={() => setIsHovered1(true)}
           onMouseLeave={() => setIsHovered1(false)}
@@ -116,7 +127,15 @@ const FileUploader = ({ sessionId }) => {
               Size: <strong>{(file.size / 1024).toFixed(2)} KB</strong>{" "}
             </p>
             <p className="text-file-info">
-              Type: <strong>{file.type}</strong>{" "}
+              Type: <strong>{getFileType()}</strong>{" "}
+            </p>
+          </div>
+        )}
+
+        {!file && (
+          <div className="file-info">
+            <p className="text-file-info">
+              Extensions allowed: .db .sqlite .sqlite3
             </p>
           </div>
         )}
@@ -124,15 +143,23 @@ const FileUploader = ({ sessionId }) => {
 
       <Container className="upload-section">
         {status === "error" && (
-          <p className="error-message">
-            Error al subir el archivo. Inténtalo de nuevo.
+          <p className="text-file-info">
+            Error uploading file. Try again.
           </p>
         )}
 
         {status === "success" && (
           <div className="success-info">
             <p className="text-file-info">
-              Subido correctamente. Ahora puedes hacer consultas.
+              Uploaded successfully. Now you can ask queries.
+            </p>
+          </div>
+        )}
+
+        {status === "waiting" && (
+          <div className="success-info">
+            <p className="text-file-info">
+              You are currently using a default database.
             </p>
           </div>
         )}
@@ -148,9 +175,8 @@ const FileUploader = ({ sessionId }) => {
                 ? {
                     backgroundColor: "#f0d5d0",
                     marginTop: "10px",
-                    justifyContent: "end",
                   }
-                : { marginTop: "10px", justifyContent: "end" }
+                : { marginTop: "10px" }
             }
             onMouseEnter={() => setIsHovered2(true)}
             onMouseLeave={() => setIsHovered2(false)}

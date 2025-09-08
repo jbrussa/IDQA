@@ -15,6 +15,7 @@ import re
 # Base de datos por defecto para gestión del sistema
 DEFAULT_DB = "database/Chinook_Sqlite.sqlite"
 SYSTEM_DB = "database/base.db"  # Para sesiones e historial
+UPLOAD_FOLDER = "upload-database"  # Carpeta para bases de datos subidas por el usuario
 
 app = FastAPI()
 client = OpenAI()
@@ -135,8 +136,40 @@ async def upload_database(request: Request,file: UploadFile = File(...)):
 
 
 @app.get("/schema", response_model=dict[str, list[dict[str, str]]])
-async def get_schema():
-    schema =  system_sqlite_service.get_schema()
+async def get_schema(request: Request):
+    """
+    Devuelve el esquema de la base de datos del usuario si ha subido una,
+    o el esquema de la base de datos por defecto si no ha subido ninguna.
+    """
+    # Recupera el session_id del header
+    session_id = request.headers.get("id")
+
+    db_path = DEFAULT_DB
+    
+    # Comprueba si existe un archivo de base de datos para la sesión actual
+    if session_id:
+        # Lista de posibles extensiones de archivo
+        possible_extensions = ['.sqlite', '.db', '.sqlite3']
+        uploaded_db_found = False
+
+        for ext in possible_extensions:
+            # Crea la ruta al archivo subido con la extensión actual
+            uploaded_file_path = os.path.join(UPLOAD_FOLDER, f"{session_id}{ext}")
+            # Comprueba si el archivo existe
+            if os.path.exists(uploaded_file_path):
+                db_path = uploaded_file_path
+                print(f"Usando base de datos subida: {db_path}")
+                uploaded_db_found = True
+        if not uploaded_db_found:
+            print(f"Archivo no encontrado para la sesión {session_id}, usando DB por defecto: {db_path}")
+    else:
+        print("No se proporcionó session_id, usando DB por defecto: {db_path}")
+
+    # Crea una instancia de SQLite_service con la ruta de la base de datos determinada
+    data_sqlite_service = SQLite_service(db_path)
+    
+    # Obtiene el esquema
+    schema = data_sqlite_service.get_schema()
     return schema
 
 @app.post("/execute")

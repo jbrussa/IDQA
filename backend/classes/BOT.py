@@ -58,9 +58,9 @@ class BOT:
 
        messages = [{"role": "user", "content": instruction}]
        response = client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-4.1-mini",
             messages=messages,
-            tools=self.get_tools(),
+            tools=self.get_tools()
         )
        
        choice = response.choices[0]
@@ -95,7 +95,7 @@ class BOT:
                 ]
 
                 final_response = client.chat.completions.create(
-                    model="gpt-4.1",
+                    model="gpt-4.1-mini",
                     messages=followup_messages,
                 )
 

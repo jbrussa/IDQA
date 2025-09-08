@@ -66,8 +66,9 @@
 }
 
 .text-section1 {
-  width: 65%;
-  height: 60%;
+  width: 80%;
+  max-width: 1000px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,6 +85,7 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   color: #fff;
   font-family: system-ui, sans-serif;
+  overflow-y: auto;
 }
 
 .title-container {
@@ -112,7 +114,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px;
 }
 
 .section-a-box {
