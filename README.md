@@ -2,43 +2,43 @@
 
 Intelligent Database Query Assistant
 
-IDQA es una aplicación que permite a un usuario subir una base de datos SQLite, realizar preguntas en lenguaje natural sobre los datos, y recibir respuestas generadas mediante IA.
+IDQA is an application that allows a user to upload a SQLite database, ask natural language questions about the data, and receive AI-generated answers.
 
 ![Ejemplo de uso](https://github.com/jbrussa/IDQA/raw/main/frontend/src/assets/gif-presentation.gif)
 
-## Tecnologías
+## Technologies
 
 - Frontend: ReactJS
 - Backend: Python + FastAPI
-- Base de datos: SQLite
-- API de IA: OpenAI GPT-4.1
+- Database: SQLite
+- AI API: OpenAI GPT-4.1 mini
 
-## Requisitos
+## Requirements
 
-- Instalar python 3.10 o superior
-- Crear entorno virtual con el siguiente comando:
+- Install Python 3.10 or a newer version.
+- Create a virtual environment with the following command:
 
-`cd [carpeta del proyecto] 
+`cd [project folder] 
 python -m venv venv`
 
-## Activar entorno
+## Activating the Environment
 
-- En windows: .\venv\Scripts\activate
-- En linux: . venv/bin/activate
+- On windows: .\venv\Scripts\activate
+- On linux: . venv/bin/activate
 
-## Instalar librerías
+## Installing Libraries
 
-- Actualizar pip
+- Upgrade pip:
   `pip install --upgrade pip`
 
-- Instalar librerías
+- Installing Libraries:
   `pip install -r requirements.txt`
 
-## Para ejecutar
+## To Run
 
-- Ejecutar el siguiente comando
+- Execute the following command:
   `fastapi dev main.py`
 
-## Aclaración
+## Note
 
-Es necesario un archivo .env con la APIKEY para el uso de OpenAI
+An .env file with the API key is required to use OpenAI.
