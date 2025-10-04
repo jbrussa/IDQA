@@ -1,8 +1,8 @@
-# IDQA
+# DIA
 
-Intelligent Database Query Assistant
+An Intelligent Database Query Assistant
 
-IDQA is an application that allows a user to upload a SQLite database, ask natural language questions about the data, and receive AI-generated answers.
+DIA is an application that allows a user to upload a SQLite database, ask natural language questions about the data, and receive AI-generated answers.
 
 ![Ejemplo de uso](https://github.com/jbrussa/IDQA/raw/main/frontend/src/assets/gif-presentation.gif)
 

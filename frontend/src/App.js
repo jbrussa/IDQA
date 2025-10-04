@@ -145,7 +145,7 @@ function App() {
 
             <Container className="subtitle-container">
               <p className="subtitle">
-                IDQA is an AI-powered platform designed to enable natural
+                DIA is an AI-powered platform designed to enable natural
                 language interaction with your databases. It simplifies complex
                 data exploration by allowing you to upload a database and ask
                 questions in your language. Our mission is to bridge the gap
@@ -252,7 +252,7 @@ function App() {
       </Section2>
 
       <Footer>
-        <p className="footer-text">© 2025 IDQA. All rights reserved.</p>
+        <p className="footer-text">© 2025 DIA. All rights reserved.</p>
       </Footer>
     </div>
   );
