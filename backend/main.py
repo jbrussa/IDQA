@@ -39,7 +39,7 @@ system_sqlite_service.create_table_historial()
 # Configura los orígenes permitidos
 origins = [
     "http://localhost:3000",
-    "https://dia-ego8.onrender.com/"
+    "https://dia-ego8.onrender.com"
 ]
 
 # Agrega el middleware CORS a la app FastAPI
