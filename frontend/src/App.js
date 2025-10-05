@@ -14,6 +14,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"; // para listas, tablas, checkboxes
 
 function App() {
+  const API_BASE_URL = "https://dia-dtyq.onrender.com";
+
   //* Estados y referencias *//
   const [show, setShow] = useState(false);
   const [sessionId, setSessionId] = useState(null);
@@ -37,7 +39,7 @@ function App() {
 
   // UseEffect para obtener el ID de la sesión
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/session", {
+    fetch(`${API_BASE_URL}/session`, {
       method: "POST", // Especifica que es una solicitud GET
     })
       .then((response) => response.json())
@@ -63,7 +65,7 @@ function App() {
   // UseEffect para obtener el esquema de la base de datos cuando cambia el status a "uploaded"
   useEffect(() => {
     if (sessionId) {
-      fetch("http://127.0.0.1:8000/schema", {
+      fetch(`${API_BASE_URL}/schema`, {
         headers: { id: sessionId },
       })
         .then((response) => response.json())
@@ -111,7 +113,7 @@ function App() {
     // Activar el estado de "pensando" mientras se espera la respuesta
     setThinking(true);
 
-    fetch("http://127.0.0.1:8000/query", {
+    fetch(`${API_BASE_URL}/query`, {
       method: "POST",
       headers: { "Content-Type": "application/json", id: sessionId },
       body: JSON.stringify({ query }),
