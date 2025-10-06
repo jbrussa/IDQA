@@ -6,6 +6,8 @@ import Container from "../Container/Container.jsx";
 const FileUploader = ({ sessionId, file, setFile, status, setStatus }) => {
   // Definimos el archivo como un estado
 
+  const API_BASE_URL = "https://dia-dtyq.onrender.com";
+
   const [isHovered1, setIsHovered1] = useState(false); // Estado para manejar el hover del boton
   const [isHovered2, setIsHovered2] = useState(false); // Estado para manejar el hover del boton
 
@@ -65,7 +67,7 @@ const FileUploader = ({ sessionId, file, setFile, status, setStatus }) => {
     }
 
     try {
-      await fetch("http://127.0.0.1:8000/upload-db", {
+      await fetch(`${API_BASE_URL}/upload-db`, {
         method: "POST",
         body: formData,
         headers: { id: sessionId },
@@ -143,9 +145,7 @@ const FileUploader = ({ sessionId, file, setFile, status, setStatus }) => {
 
       <Container className="upload-section">
         {status === "error" && (
-          <p className="text-file-info">
-            Error uploading file. Try again.
-          </p>
+          <p className="text-file-info">Error uploading file. Try again.</p>
         )}
 
         {status === "success" && (
