@@ -149,9 +149,9 @@ function App() {
               <p className="subtitle">
                 DIA is an AI-powered platform that enables natural language
                 interaction with your databases. It allows you to upload a
-                database and ask questions to obtain instant
-                insights, eliminating the need for technical queries or advanced
-                database knowledge.
+                database and ask questions to obtain instant insights,
+                eliminating the need for technical queries or advanced database
+                knowledge.
               </p>
             </Container>
             <Container className="button-container">
@@ -213,6 +213,12 @@ function App() {
                 className="messages-container"
                 ref={messagesContainerRef}
               >
+                {sessionId == null && (
+                  <div className="initial-loading">
+                    <Spinner size="3" /> {/* Utiliza tu componente Spinner */}
+                    <p>Connecting to server...</p> {/* Mensaje opcional */}
+                  </div>
+                )}
                 {messages.map((message, index) => (
                   <MessageBox key={index} className={message.type}>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
