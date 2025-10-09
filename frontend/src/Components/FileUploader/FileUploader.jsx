@@ -44,7 +44,6 @@ const FileUploader = ({ sessionId, file, setFile, status, setStatus }) => {
       return;
     }
 
-    // Aca irian validaciones de tamaño o tipo de archivo
     // Validación del tipo de archivo
     const fileExtension = file.name.split(".").pop().toLowerCase();
     const allowedExtensions = ["db", "sqlite", "sqlite3"];

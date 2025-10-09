@@ -3,3 +3,10 @@
   height: 100px;
 }
 
+
+
+@media (max-width: 768px) {
+  .footer {
+    height: 60px;
+  }
+}
