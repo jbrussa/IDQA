@@ -147,13 +147,11 @@ function App() {
 
             <Container className="subtitle-container">
               <p className="subtitle">
-                DIA is an AI-powered platform designed to enable natural
-                language interaction with your databases. It simplifies complex
-                data exploration by allowing you to upload a database and ask
-                questions in your language. Our mission is to bridge the gap
-                between users and their data, empowering you to retrieve
-                insights and make informed decisions instantly, without the need
-                for technical queries or extensive database knowledge.
+                DIA is an AI-powered platform that enables natural language
+                interaction with your databases. It allows you to upload a
+                database and ask questions to obtain instant
+                insights, eliminating the need for technical queries or advanced
+                database knowledge.
               </p>
             </Container>
             <Container className="button-container">
