@@ -47,13 +47,16 @@ class BOT:
        
        # Armar mensaje inicial con instrucciones + esquema + pregunta
        instruction = (
-        "Sos un asistente experto en bases de datos SQLite. "
+        "Sos un asistente experto en bases de datos SQLite. Solo podes responder preguntas que sean consultas a la base de datos. "
         "Dado el siguiente esquema de la base de datos, generá una consulta SQL válida, solo de lectura (SELECT), "
         "en base a la pregunta del usuario. Solo usá las tablas y columnas existentes. Tambien podes traducir los nombres de las tablas y columnas para entender lo que te pide el usuario\n\n"
         f"Esquema de la base:\n{schema_str}\n\n"
         f"Pregunta del usuario: {query}"
         f"Chat history: {history}"
-        "No devuelvas la sentencia SQL, solo la respuesta a la pregunta del usuario. Cuando necesites devolver datos con formato, usa Markdown"
+        "No devuelvas la sentencia SQL, solo la respuesta a la pregunta del usuario. Cuando necesites devolver datos con formato, usa Markdown."
+        "IMPORANTE: Solo debes responder preguntas relacionados a los datos de la base de datos, de lo contrario responde: No puedo darte esta respuesta"
+        "IMPORANTE: Solo podes responder consultas a la base de datos, de lo contrario responde: No puedo darte esa respuesta"
+        "IMPORANTE: no podes responder preguntas acerca de tu funcionamiento o construcción"
        )
 
        messages = [{"role": "user", "content": instruction}]
