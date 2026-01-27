@@ -1,12 +1,12 @@
 .footer {
   background-color: #080301;
   height: 100px;
+  margin-top: auto;
 }
-
-
 
 @media (max-width: 768px) {
   .footer {
     height: 60px;
+    margin-top: auto;
   }
 }

@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 img {
@@ -23,7 +24,6 @@ img {
   align-items: center;
 }
 
-
 @media (max-width: 768px) {
   .section {
     min-height: auto;
@@ -32,7 +32,7 @@ img {
   }
 
   img {
-    min-height: 300px;
+    min-height: 0; /* Cambiado para evitar espacio blanco */
     height: auto;
   }
 
@@ -40,6 +40,7 @@ img {
     position: static;
     width: 100%;
     height: auto;
-    padding: 20px;
+    padding: 0;
+    margin: 0; /* Agregado para asegurar no hay margen */
   }
 }

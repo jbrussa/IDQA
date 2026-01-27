@@ -1,14 +1,14 @@
 
 .chat{
     width: 80%;
-    height: 88%;
+    height: 80%; /* Aún más chico para pantallas grandes */
     display: flex;
     max-width: 80%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 1.2rem;
-    overflow-y: auto; /* Agrega un scrollbar si hay más mensajes */
+    padding: 1rem; /* Reducido para menos margen en grande */
+    /* overflow-y: auto; */ /* Removido para evitar doble barra de scroll */
     scroll-behavior: smooth; /* Esto hace que el desplazamiento sea suave */
 
     /* Glassmorphism core */
@@ -22,4 +22,12 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     color: #fff;
     font-family: system-ui, sans-serif;
+}
+
+/* Media query para móviles */
+@media (max-width: 800px) {
+  .chat {
+    height: 100%; /* Más grande en móviles */
+    padding: 0.5rem; /* Reducido para más espacio */
+  }
 }

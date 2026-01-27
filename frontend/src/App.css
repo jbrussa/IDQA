@@ -5,6 +5,12 @@
   box-sizing: border-box; /* Incluye padding y border en el ancho */
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 html,
 body {
   margin: 0;
@@ -25,7 +31,7 @@ body {
 
 .footer-text {
   color: #f0f0f0;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Reducido de 1.2rem */
   text-align: center;
   padding-top: 30px;
 }
